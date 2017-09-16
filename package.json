@@ -1,0 +1,27 @@
+{
+  "name": "swbot",
+  "version": "1.0.0",
+  "description": "Star Wars Api.ai bot hook",
+  "main": "index.js",
+  "scripts": {
+    "init": "mkdir dist",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean && npm run init",
+    "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
+    "build": "babel src -d dist",
+    "start": "nodemon src/index.js"
+  },
+  "author": "Sergi Martínez (@sergiandreplace)",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.2"
+  },
+  "dependencies": {
+    "eslint": "^4.7.0"
+  }
+}
