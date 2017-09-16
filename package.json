@@ -2,14 +2,15 @@
   "name": "swbot",
   "version": "1.0.0",
   "description": "Star Wars Api.ai bot hook",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "init": "mkdir dist",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean && npm run init",
     "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
     "build": "babel src -d dist",
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "startdev": "nodemon --inspect src/index.js"
   },
   "author": "Sergi Martínez (@sergiandreplace)",
   "license": "Apache-2.0",
