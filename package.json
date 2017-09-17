@@ -10,7 +10,7 @@
     "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
     "build": "babel src -d dist",
     "start": "node src/index.js",
-    "startdev": "nodemon --inspect src/index.js"
+    "startdev": "node --inspect src/index.js"
   },
   "author": "Sergi Martínez (@sergiandreplace)",
   "license": "Apache-2.0",
