@@ -21,10 +21,26 @@ var process = async function(request) {
   } else {
       var characters = await swapi.findPeople(characterName);
       var answer = await getAnswerFor(characters, action);
-      answer;
   }
 
-  return answer
+  var contextOut = buildContextAnswer(characterName, answer);
+
+  return contextOut;
+}
+
+var buildContextAnswer = function(characterName, answer) {
+  return { 
+    speech: answer,
+    displayText: answer,
+    source: 'swBot',
+    contextOut: [
+      {
+        name: 'out',
+        Subject: characterName,
+      
+      }
+    ]
+  }
 }
 
 var getAnswerFor = async function (characters, action) {
@@ -40,6 +56,7 @@ var getAnswerFor = async function (characters, action) {
 }
 
 var getAnswerForAction = async function(character, action) {
+  var homeworld = await swapi.findHomeWorld(character);  
   var answers = {
     'subject.set' : [
         `What do you want to know about ${character.name}?`,
@@ -54,7 +71,12 @@ var getAnswerForAction = async function(character, action) {
       `${character.name}'s hair color is ${character.hair}`,
       `${character.name}'s has a ${character.hair} hair`,
       `${character.name}'s hair is ${character.hair}`
-    ]
+    ],
+    'subject.get.planet': [
+      `${character.name} was born in ${homeworld.name}`,
+      `${character.name} is from ${homeworld.name}`,
+      `${character.name} comes from ${homeworld.name}`
+    ],
   }
   return pickupRandomPhrase(answers[action]);
 }
