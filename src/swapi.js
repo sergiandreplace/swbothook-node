@@ -1,24 +1,12 @@
 var https = require('https');
+var axios = require('axios');
+var util = require('util');
 
-var findPeople = function (name, callback) {
-  https.get("https://swapi.co/api/people/?search=" + name, (res) => {
-    readBody(res, (body) => callback(body));
-  });
+var findPeople = async function (name, callback)  {
+  var result = await axios.get(`https://swapi.co/api/people/?search=${name}`);
+  return result.data.results;
 }
 
-
-
-var readBody = function (res, callback) {
-  let rawData = '';
-
-  res.on('data', (chunk) => { rawData += chunk; });
-
-  res.on('end', () => {
-    const parsedData = JSON.parse(rawData);
-    callback(parsedData.results);
-  });
-
-}
 
 module.exports = {
   findPeople: findPeople

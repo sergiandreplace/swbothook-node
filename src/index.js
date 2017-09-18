@@ -21,8 +21,16 @@ http.createServer((req, res) => {
       console.error(err);
     });
 
-    action.process(JSON.parse(body), (response) => res.end(response));
-
+    action.process(JSON.parse(body))
+    .then(response => {
+        console.log(JSON.stringify(response));
+        res.end(JSON.stringify(response))
+    })
+    .catch(e => {
+      console.log(e);
+      res.end(JSON.stringify(e));
+    });
+    
   });
 }).listen(process.env.PORT || 8080);;
 
