@@ -1,0 +1,105 @@
+{
+  "originalRequest": {
+    "source": "google",
+    "version": "2",
+    "data": {
+      "isInSandbox": true,
+      "surface": {
+        "capabilities": [
+          {
+            "name": "actions.capability.AUDIO_OUTPUT"
+          }
+        ]
+      },
+      "inputs": [
+        {
+          "rawInputs": [
+            {
+              "query": "let\u0027s talk about darth vader",
+              "inputType": "VOICE"
+            }
+          ],
+          "arguments": [
+            {
+              "rawText": "let\u0027s talk about darth vader",
+              "textValue": "let\u0027s talk about darth vader",
+              "name": "text"
+            }
+          ],
+          "intent": "actions.intent.TEXT"
+        }
+      ],
+      "user": {
+        "locale": "en-US",
+        "userId": "AA9doubredXFr4_2bgSJ1p9z8li3"
+      },
+      "device": {},
+      "conversation": {
+        "conversationId": "1505648067951",
+        "type": "ACTIVE",
+        "conversationToken": "[]"
+      }
+    }
+  },
+  "id": "eee821ec-b4bf-4070-8419-3cc5023ec4bd",
+  "timestamp": "2017-09-17T11:34:40.351Z",
+  "lang": "en",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "let\u0027s talk about darth vader",
+    "speech": "",
+    "action": "subject.set",
+    "actionIncomplete": false,
+    "parameters": {
+      "Subject": "darth vader"
+    },
+    "contexts": [
+      {
+        "name": "inquiry",
+        "parameters": {
+          "Subject.original": "darth vader",
+          "Subject": "darth vader"
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "google_assistant_input_type_voice",
+        "parameters": {
+          "Subject.original": "darth vader",
+          "Subject": "darth vader"
+        },
+        "lifespan": 0
+      },
+      {
+        "name": "actions_capability_audio_output",
+        "parameters": {
+          "Subject.original": "darth vader",
+          "Subject": "darth vader"
+        },
+        "lifespan": 0
+      }
+    ],
+    "metadata": {
+      "intentId": "5bd33ac8-dc94-4621-be6c-936e4a8809e7",
+      "webhookUsed": "true",
+      "webhookForSlotFillingUsed": "false",
+      "nluResponseTime": 45,
+      "intentName": "set.subject"
+    },
+    "fulfillment": {
+      "speech": "",
+      "messages": [
+        {
+          "type": 0,
+          "speech": ""
+        }
+      ]
+    },
+    "score": 1.0
+  },
+  "status": {
+    "code": 200,
+    "errorType": "success"
+  },
+  "sessionId": "1505648067951"
+}

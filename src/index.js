@@ -1,36 +1,22 @@
-var http = require('http');
+var express = require('express');
 var action = require('./action');
+var bodyParser = require('body-parser');
 
-http.createServer((req, res) => {
-  const { headers, method, url } = req;
-  let body = [];
+const app = express()
+app.use(bodyParser.json());
 
-  req.on('error', (err) => {
-    console.error(err);
-  }).on('data', (chunk) => {
-    body.push(chunk);
-  }).on('end', () => {
-    body = Buffer.concat(body).toString();
-    // BEGINNING OF NEW STUFF
+app.post("/",   function(req, res)  {
 
-    
-
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.on('error', (err) => {
-      console.error(err);
-    });
-
-    action.process(JSON.parse(body))
-    .then(response => {
-        console.log(JSON.stringify(response));
-        res.end(JSON.stringify(response))
+    body = req.body
+    console.clear()
+    console.log(body)
+    action.process(body)
+    .then(function(response) { 
+      res.statusCode = 200
+      res.setHeader('Content-Type', 'application/json')
+      res.send(response)
     })
-    .catch(e => {
-      console.log(e);
-      res.end(JSON.stringify(e));
-    });
-    
-  });
-}).listen(process.env.PORT || 8080);;
+})
+
+app.listen(process.env.PORT || 8080);;
 

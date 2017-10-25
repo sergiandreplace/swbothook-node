@@ -5,55 +5,52 @@ var swapi = require('./swapi');
 var process = async function(request) {
   const {originalRequest, result} = request;
   
-  const characterName = result.parameters.Subject;
-  console.log("Character name=" + characterName);
-
-
   const origin = processOriginalRequest(originalRequest);
-  console.log("Original Request: " + util.inspect(origin));
-
+  
+  const requestedCharacter = result.parameters.Subject;
   const action = result.action;
-  console.log("Action: " + action);
- 
-  var answer;
-  if (characterName == null) {
+
+  let answer;
+  let characters = [];
+  let context;
+  if (!requestedCharacter) {
       answer = "Tell me the name of a character";
   } else {
-      var characters = await swapi.findPeople(characterName);
-      var answer = await getAnswerFor(characters, action);
+      characters = await swapi.findPeople(requestedCharacter);
+      
+      if (!characters || characters.length == 0) {
+        answer  = 'I don\'t know who ' + requestedCharacter + ' is'
+      } else if  (characters.length > 1) {
+        let allButOne = characters.slice(0, characters.length - 2)
+        answer  = "Do you mean " + allButOne.map((character)=>character.name).join(", ") + "or " + characters[characters.length - 1].name;
+        context = "out"
+      } else {
+        answer = await getAnswerForAction(characters[0], action)
+        context = "out"
+      }
   }
 
-  var contextOut = buildContextAnswer(characterName, answer);
+  var contextOut = buildContextAnswer(requestedCharacter, answer, context);
 
   return contextOut;
 }
 
-var buildContextAnswer = function(characterName, answer) {
+var buildContextAnswer = function(requestedCharacter, answer, context) {
   return { 
     speech: answer,
     displayText: answer,
     source: 'swBot',
     contextOut: [
       {
-        name: 'out',
-        Subject: characterName,
+        name: context,
+        Subject: requestedCharacter,
       
       }
     ]
   }
 }
 
-var getAnswerFor = async function (characters, action) {
-  if (characters.length > 1) {
-    return "Do you mean " + characters.map((character)=>character.name).join(", ");
-  }
-  if (characters.length == 0) {
-    return 'I don\'t know who ' + characterName + ' is'
-  }
 
-  return await getAnswerForAction(characters[0], action);
-  
-}
 
 var getAnswerForAction = async function(character, action) {
   var homeworld = await swapi.findHomeWorld(character);  
@@ -68,9 +65,9 @@ var getAnswerForAction = async function(character, action) {
         `${character.name} measures ${character.height} cm`
     ],
     'subject.get.hair': [
-      `${character.name}'s hair color is ${character.hair}`,
-      `${character.name}'s has a ${character.hair} hair`,
-      `${character.name}'s hair is ${character.hair}`
+      `${character.name}'s hair color is ${character.hair_color}`,
+      `${character.name}'s has a ${character.hair_color} hair`,
+      `${character.name}'s hair is ${character.hair_color}`
     ],
     'subject.get.planet': [
       `${character.name} was born in ${homeworld.name}`,
