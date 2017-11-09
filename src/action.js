@@ -4,16 +4,9 @@ var swapi = require('./swapi');
 
 var process = async function(request) {
   const {originalRequest, result} = request;
-  
   const characterName = result.parameters.Subject;
-  console.log("Character name=" + characterName);
-
-
   const origin = processOriginalRequest(originalRequest);
-  console.log("Original Request: " + util.inspect(origin));
-
   const action = result.action;
-  console.log("Action: " + action);
  
   var answer;
   if (characterName == null) {
@@ -57,6 +50,7 @@ var getAnswerFor = async function (characters, action) {
 
 var getAnswerForAction = async function(character, action) {
   var homeworld = await swapi.findHomeWorld(character);  
+  console.log(homeworld)
   var answers = {
     'subject.set' : [
         `What do you want to know about ${character.name}?`,

@@ -8,7 +8,8 @@ var findPeople = async function (name)  {
 }
 
 var findHomeworld = async function(person) {
-  return await axios.get(person.homeworld);
+  let result = await axios.get(person.homeworld);
+  return result.data;
 }
 
 
