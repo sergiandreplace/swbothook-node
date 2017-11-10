@@ -18,7 +18,7 @@ var process = async function(request) {
         answer  = 'I don\'t know who ' + requestedCharacter + ' is'
       } else if  (characters.length > 1) {
         let allButOne = characters.slice(0, characters.length - 2)
-        answer  = "Do you mean " + allButOne.map((character)=>character.name).join(", ") + "or " + characters[characters.length - 1].name;
+        answer  = "Do you mean " + joinToPhrase(characters.map((character)=>character.name), "or")
         context = "out"
       } else {
         let currentCharacter = characters[0]
@@ -74,11 +74,18 @@ var getAnswerForAction = async function(character, action) {
       break
     case 'subject.get.planet':
       let homeworld = await swapi.findHomeWorld(character)
-      console.log("POTATOWORLD: ",homeworld)
       answers = [
         `${character.name} was born in ${homeworld.name}`,
         `${character.name} is from ${homeworld.name}`,
         `${character.name} comes from ${homeworld.name}`
+      ]
+      break
+    case 'subject.get.movies':
+      let movies = await swapi.getMovies(character);
+      let moviesPhrase = joinToPhrase(movies, "and")
+      answers = [
+        `${character.name} appears in ${moviesPhrase}`,
+        `You can see ${character.name} on ${moviesPhrase}`
       ]
       break
     default:
@@ -110,6 +117,13 @@ var processOriginalRequest = function(rawOriginalRequest) {
       conversationId: rawOriginalRequest.originalRequest.data.message.chat.id
     }
   }
+}
+
+var joinToPhrase = function(items, lastSeparator) {
+  console.log(items)
+  let allButOne = items.slice(0, items.length - 1)
+  console.log(allButOne)
+  return allButOne.join(", ") + " " + lastSeparator + " " + items[items.length - 1];
 }
 
 module.exports = {
