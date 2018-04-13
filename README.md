@@ -12,16 +12,24 @@ Create a new agent in Dialog Flow and import the file SWBot.zip. This file conta
 
 ### Webhook
 
-The webhook is a node app. You can start it with the command ```npm run start``` or ```npm run startdev```. Both will run the server, but the second one restarts it automatically if you change any file or something fails.
+The webhook is a node app.
 
-Remember to install the dependencies before running it.
+Ensure to be using the latest version of NodeJs. And, once downloaded the project, execute ```npm install``` to update dependencies.
 
-You will have to setup the webhook url in Dialog Flow once running.
+You can start it with the command ```npm run start``` or ```npm run startdev```. Both will run the server, but the second one restarts it automatically if you change any file or something fails.
+
 
 ## ngrok
 
-If you want to run it locally, I recommend using ngrok. Just download it and execute ```ngrok http 8080``` to create an http tunnel to your local 8080 port (where the webhook is running).
+When the server starts, it uses ngrok to create a tunnel to make you local server accessible from internet. Once started, you'll see a message in the console like this:
 
-Once you have an url, set it up in Dialog Flow.
+```
+Running at https://5db5787f.ngrok.io
+Check traffic at http://127.0.0.1:4040/
+```
 
-Check additional options for security on ngrok documentation
+In this case, you must use https://5db5787f.ngrok.io as your webhook url in DialogFlow (in your agent, go to section Fullfillment).
+
+This creates an open tunnel to your machine, securing it is up to you.
+
+Also, you can use the url http://127.0.0.1:4040/ to check the requests and responses received through the tunnel and also to resend requests (Great for debugging)
